@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: seorin
+  data:
+    redis:
+      host: localhost # Redis 호스트
+      port: 6379 # Redis 포트(기본)
+  datasource:
+    url: jdbc:mysql://localhost:23306/todo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    username: root # MySQL 접속 계정
+    password: 1234 # MySQL 접속 비밀번호
+    driver-class-name: com.mysql.cj.jdbc.Driver # MySQL 드라이버 클래스
+  jpa:
+    hibernate:
+      ddl-auto=update:
+
+server:
+  port: 8080 # 서버 포트 지정
+  servlet:
+    session:
+      timeout: 1800 # 세션 유효시간 설정(초)
