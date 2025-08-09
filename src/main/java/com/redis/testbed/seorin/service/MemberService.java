@@ -26,6 +26,11 @@ public class MemberService {
 	}
 
 	public void register(MemberEntity memberEntity) {
+		// TODO: 중복 ID 체크
+		this.memberRepository.findByEmail(memberEntity.getEmail())
+			.ifPresent(existingMember -> {
+				throw new IllegalArgumentException("Member with this email already exists");
+			});
 		this.memberRepository.save(memberEntity);
 	}
 }
