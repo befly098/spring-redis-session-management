@@ -26,7 +26,8 @@ public class SecurityConfig {
 
 		http
 			.formLogin(login -> login
-				.loginProcessingUrl("/login")
+				.loginPage("/api/members/login")
+				.defaultSuccessUrl("/api/members/login-success", true)
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.permitAll());
