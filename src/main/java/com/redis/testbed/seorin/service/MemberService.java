@@ -5,6 +5,9 @@ import static com.redis.testbed.seorin.common.exceptions.ErrorCodes.*;
 import java.util.Optional;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.redis.testbed.seorin.entity.MemberEntity;
@@ -12,12 +15,15 @@ import com.redis.testbed.seorin.entity.MemberLoginInfoDto;
 import com.redis.testbed.seorin.repository.MemberRepository;
 
 @Configuration
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
 	private final MemberRepository memberRepository;
+	private final PasswordEncoder passwordEncoder;
 
-	public MemberService(MemberRepository memberRepository) {
+	public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
 		this.memberRepository = memberRepository;
+
 	}
 
 	public MemberEntity login(MemberLoginInfoDto memberLoginInfoDto) throws ResponseStatusException {
@@ -29,13 +35,25 @@ public class MemberService {
 	}
 
 	public void register(MemberEntity memberEntity) {
-		// TODO: 중복 ID 체크
-		this.memberRepository.findByEmail(memberEntity.getEmail())
+
+		memberEntity.setPassword(passwordEncoder.encode(memberEntity.getPassword()));
+		memberEntity.setEnabled(1);
+		memberEntity.setAuth("ADMIN");
+
+		this.memberRepository.findByEmail(memberEntity.getUsername())
 			.ifPresent(existingMember -> {
 				throw new ResponseStatusException(
 					INVALID_REGISTER_REQUEST.getHttpStatus(),
 					INVALID_REGISTER_REQUEST.getDetail());
 			});
 		this.memberRepository.save(memberEntity);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws ResponseStatusException {
+
+		return this.memberRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(
+			MEMBER_NOT_FOUND.getHttpStatus(),
+			MEMBER_NOT_FOUND.getDetail()));
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.redis.testbed.seorin.entity.MemberEntity;
 import com.redis.testbed.seorin.entity.MemberLoginRequest;
@@ -26,12 +27,12 @@ public class MemberController {
 		this.memberService = memberService;
 	}
 
-	@PostMapping("/login") // TODO: spring security 적용
-	public void login(@RequestBody @Valid MemberLoginRequest memberLoginRequest, HttpSession httpSession) throws
-		AuthenticationNotSupportedException {
-		MemberEntity member = memberService.login(memberLoginRequest.toLogin());
-		httpSession.setAttribute(SESSION_NAME, member.getEmail());
-	}
+	// @PostMapping("/login") // TODO: spring security 적용, jwt 토큰 발급
+	// public void login(@RequestBody @Valid MemberLoginRequest memberLoginRequest, HttpSession httpSession) throws
+	// 	ResponseStatusException {
+	// 	MemberEntity member = memberService.login(memberLoginRequest.toLogin());
+	// 	httpSession.setAttribute(SESSION_NAME, member.getUsername());
+	// }
 
 	@PostMapping("/register")
 	public String register(@RequestBody @Valid MemberRegisterRequest memberRegisterRequest) {
