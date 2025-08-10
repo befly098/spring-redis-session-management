@@ -4,6 +4,8 @@ import static com.redis.testbed.seorin.common.exceptions.ErrorCodes.*;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +19,7 @@ import com.redis.testbed.seorin.repository.MemberRepository;
 @Configuration
 public class MemberService implements UserDetailsService {
 
+	private static final Logger log = LoggerFactory.getLogger(MemberService.class);
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 
@@ -52,8 +55,12 @@ public class MemberService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws ResponseStatusException {
 
-		return this.memberRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(
+		MemberEntity member = this.memberRepository.findByEmail(email).orElseThrow(() -> new ResponseStatusException(
 			MEMBER_NOT_FOUND.getHttpStatus(),
 			MEMBER_NOT_FOUND.getDetail()));
+
+		log.info("Member found: {}", member.getEmail());
+
+		return member;
 	}
 }

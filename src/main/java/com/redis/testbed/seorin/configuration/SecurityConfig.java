@@ -26,8 +26,7 @@ public class SecurityConfig {
 
 		http
 			.formLogin(login -> login
-				.loginPage("/api/members/login")
-				.loginProcessingUrl("/api/members/login")
+				.loginProcessingUrl("/login")
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.permitAll());
