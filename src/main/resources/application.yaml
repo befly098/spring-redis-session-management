@@ -9,6 +9,11 @@ spring:
     redis:
       host: localhost
       port: 6379
+  datasource:
+    url: jdbc:mysql://localhost:23306/todo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    username: root # MySQL 접속 계정
+    password: 1234 # MySQL 접속 비밀번호
+    driver-class-name: com.mysql.cj.jdbc.Driver # MySQL 드라이버 클래스
 
 server:
     port: 9090

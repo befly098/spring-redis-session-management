@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+  <style>
+    /* Reset and base */
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #333;
+    }
+    .login-container {
+        background: white;
+        padding: 40px 50px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        width: 350px;
+        text-align: center;
+    }
+    .login-container h2 {
+        margin-bottom: 30px;
+        color: #4a4a4a;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    label {
+        text-align: left;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #555;
+    }
+    input[type="text"],
+    input[type="password"] {
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        border: 1.5px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+        border-color: #667eea;
+        outline: none;
+    }
+    button {
+        background-color: #667eea;
+        color: white;
+        padding: 14px 0;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #5a67d8;
+    }
+    .footer-text {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #999;
+    }
+    .footer-text a {
+        color: #667eea;
+        text-decoration: none;
+    }
+    .footer-text a:hover {
+        text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<div class="login-container">
+  <h2>로그인</h2>
+  <form method="post" action="/api/members/login">
+    <label for="email">이메일</label>
+    <input type="text" id="email" name="email" placeholder="이메일을 입력하세요" required />
+
+    <label for="password">비밀번호</label>
+    <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required />
+
+    <button type="submit">로그인</button>
+  </form>
+  <div class="footer-text">
+    아직 회원이 아니신가요? <a href="/register">회원가입</a>
+  </div>
+</div>
+</body>
+</html>
